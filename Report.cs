@@ -21,7 +21,7 @@ namespace S_SpeechAnywhere
 		private VuiController vuiController;
 
         private string outputFolder, outputFile, audioFile;
-        //private int time;
+        private int time;
 
         public Report(string[] args)
 		{
@@ -29,8 +29,8 @@ namespace S_SpeechAnywhere
 
             outputFolder = args[0];
             outputFile = args[1];
-            audioFile = args[2];
-            //time = int.Parse(args[2]);
+            //audioFile = args[2];
+            time = int.Parse(args[2]);
 
             // my "custom controls" are simple wrappers for the textboxes.
             myControls = new MyTextControl[] { new MyTextControl(transcription) };
@@ -56,27 +56,33 @@ namespace S_SpeechAnywhere
             // Initialize the VuiController by passing Nuance.SpeechAnywhere.Custom.ITextControl[] - which is in this case "myControls"
             vuiController.Open(myControls);
             vuiController.Focused = true;
-            
-            await autoRecordAsync();
-		}      
+
+            //await autoRecordAsync();
+        }      
 
         
         private async System.Threading.Tasks.Task autoRecordAsync()
         {
-            Session.SharedSession.StartRecording();
-            SoundPlayer player = new SoundPlayer();
-            player.SoundLocation = "c:\\Users\\swang\\SpeechToTextSolutions\\audioFiles\\" + audioFile;
-            try
-            {
-                player.PlaySync();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine("Caught exception: " + e.Message);
-            }
+            //SoundPlayer player = new SoundPlayer();
+            //player.SoundLocation = "c:\\Users\\swang\\SpeechToTextSolutions\\audioFiles\\" + audioFile;
 
-            
-            await Task.Delay(50);
+            Session.SharedSession.StartRecording();
+
+            //await Task.Delay(1000);
+
+            ////player.PlaySync();
+
+            //try
+            //{
+            //    player.PlaySync();
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("Caught exception: " + e.Message);
+            //}
+
+
+            await Task.Delay(time);
             Session.SharedSession.StopRecording();
             saveText();
             Close();
